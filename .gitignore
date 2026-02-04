@@ -1,0 +1,16 @@
+# Dependency directories
+node_modules/
+frontend/node_modules/
+server/node_modules/
+
+# Environment variables (Secrets)
+.env
+frontend/.env
+server/.env
+
+# Build outputs
+dist/
+build/
+
+# System files (Mac)
+.DS_Store
