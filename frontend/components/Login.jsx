@@ -4,12 +4,14 @@ import axios from "axios";
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSignup, setIsSignup] = useState(false); // Toggle between Login/Signup
+  const [isSignup, setIsSignup] = useState(false);
   const [username, setUsername] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const endpoint = isSignup ? "/api/auth/signup" : "/api/auth/login";
+
+    const endpoint = isSignup ? "/api/auth/register" : "/api/auth/login";
+
     const payload = isSignup
       ? { username, email, password }
       : { email, password };
@@ -24,11 +26,6 @@ const Login = ({ setToken }) => {
         alert("Account created! Please log in.");
         setIsSignup(false);
       } else {
-        const res = await axios.post(
-          `${import.meta.env.VITE_API_URL}${endpoint}`,
-          payload,
-        );
-
         const { token, user } = res.data;
 
         localStorage.setItem("devvault_token", token);
