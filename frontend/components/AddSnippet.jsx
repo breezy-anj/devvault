@@ -60,7 +60,7 @@ const AddSnippet = ({ onClose, onSnippetAdded, snippetToEdit = null }) => {
         await axios.put(
           `${import.meta.env.VITE_API_URL}/api/snippets/${snippetToEdit._id}`,
           payload,
-          { headers: { Authorization: token } }, // <--- ATTACH TOKEN
+          { headers: { Authorization: `Bearer ${token}` } },
         );
       } else {
         // CREATE New Snippet (With Token)
