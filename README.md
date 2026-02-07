@@ -13,15 +13,20 @@ DevVault is a developer-first snippet manager designed to store, organize, and r
 
 ## 📸 Interface
 
-|                Dashboard                 |                  Snippet                   |
-| :--------------------------------------: | :----------------------------------------: |
-| ![Dashboard](./screenshots/preview1.png) | ![Add Snippet](./screenshots/preview2.png) |
+### **1. The Dashboard**
 
-|                   Search                    |
-| :-----------------------------------------: |
-| ![Snippet View](./screenshots/preview3.png) |
+Manage your entire code library in one view.
+![Dashboard](./screenshots/preview1.png)
 
----
+### **2. The Editor**
+
+Create and edit snippets with ease.
+![Add Snippet](./screenshots/preview2.png)
+
+### **3. Smart Search & Syntax Highlighting**
+
+Find what you need instantly with real-time filtering and VS Code-style colors.
+![Search View](./screenshots/preview3.png)
 
 ## ✨ Key Features
 
