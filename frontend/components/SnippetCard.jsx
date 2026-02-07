@@ -1,7 +1,8 @@
 import { Copy, Trash2, Edit2, Check } from "lucide-react";
 import { useState } from "react";
-import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const SnippetCard = ({ snippet, onDelete, onEdit }) => {
   const [copied, setCopied] = useState(false);
@@ -9,69 +10,64 @@ const SnippetCard = ({ snippet, onDelete, onEdit }) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(snippet.code);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000); // Reset icon after 2s
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="bg-[#1e1e1e] border border-gray-800 rounded-xl p-6 hover:border-blue-500/50 transition-all group relative flex flex-col h-full">
+    <div className="bg-[#1e1e1e] border border-gray-800 rounded-xl p-5 hover:border-blue-500/50 transition-all group relative flex flex-col h-full shadow-lg">
       {/* Header */}
-      <div className="flex justify-between items-start mb-4">
-        <div>
+      <div className="flex justify-between items-start mb-3">
+        <div className="overflow-hidden">
           <h3
-            className="text-lg font-bold text-white mb-1 truncate max-w-[180px]"
+            className="text-lg font-bold text-white mb-1 truncate pr-2"
             title={snippet.title}
           >
             {snippet.title}
           </h3>
-          <span className="text-xs font-mono text-blue-400 bg-blue-400/10 px-2 py-1 rounded inline-block">
+          <span className="text-[10px] font-mono font-bold text-blue-400 bg-blue-900/30 px-2 py-0.5 rounded border border-blue-900/50 inline-block uppercase tracking-wider">
             {snippet.language}
           </span>
         </div>
 
-        {/* Action Buttons (Now visible on hover) */}
-        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* Action Buttons */}
+        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <button
             onClick={() => onEdit(snippet)}
-            className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 rounded-lg transition-colors"
-            title="Edit Snippet"
+            className="p-1.5 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 rounded-md transition-colors"
           >
-            <Edit2 size={16} />
+            <Edit2 size={15} />
           </button>
-
           <button
             onClick={() => onDelete(snippet._id)}
-            className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
-            title="Delete Snippet"
+            className="p-1.5 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-md transition-colors"
           >
-            <Trash2 size={16} />
+            <Trash2 size={15} />
           </button>
-
           <button
             onClick={copyToClipboard}
-            className="p-2 text-gray-400 hover:text-white bg-[#2d2d2d] rounded-lg transition-colors"
-            title="Copy Code"
+            className="p-1.5 text-gray-400 hover:text-white bg-[#2d2d2d] rounded-md transition-colors"
           >
             {copied ? (
-              <Check size={16} className="text-green-400" />
+              <Check size={15} className="text-green-400" />
             ) : (
-              <Copy size={16} />
+              <Copy size={15} />
             )}
           </button>
         </div>
       </div>
 
-      {/*  Syntax Highlighter Block */}
-      <div className="bg-[#0d1117] rounded-lg overflow-hidden border border-gray-800 mb-4 flex-1">
+      {/* Syntax Highlighter Block */}
+      <div className="rounded-lg overflow-hidden border border-gray-800/50 bg-[#0d1117] flex-1">
         <SyntaxHighlighter
           language={snippet.language.toLowerCase()}
-          style={atomOneDark}
+          style={vscDarkPlus}
           customStyle={{
-            padding: "1rem",
-            fontSize: "0.875rem",
+            padding: "16px",
+            fontSize: "13px",
             lineHeight: "1.5",
-            backgroundColor: "transparent", // Inherit bg from parent
+            backgroundColor: "#0d1117", // Matches the container bg
             margin: 0,
-            maxHeight: "300px", // Prevent super long cards
+            height: "100%",
           }}
           wrapLongLines={true}
         >
@@ -80,12 +76,12 @@ const SnippetCard = ({ snippet, onDelete, onEdit }) => {
       </div>
 
       {/* Footer Tags */}
-      <div className="flex flex-wrap gap-2 mt-auto">
+      <div className="flex flex-wrap gap-2 mt-4">
         {snippet.tags &&
           snippet.tags.map((tag, index) => (
             <span
               key={index}
-              className="text-xs text-gray-500 bg-gray-800/50 px-2 py-0.5 rounded-full"
+              className="text-[11px] text-gray-500 bg-gray-800/40 px-2 py-1 rounded-md border border-gray-800"
             >
               #{tag.trim()}
             </span>
