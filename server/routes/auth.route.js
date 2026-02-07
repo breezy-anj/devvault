@@ -21,7 +21,20 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
 
-    res.status(201).json({ message: "User created successfully" });
+    // --- FIX STARTS HERE ---
+    // Generate the token immediately after creating the user
+    const token = jwt.sign(
+      { email: newUser.email, id: newUser._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" },
+    );
+
+    res.status(201).json({
+      result: newUser,
+      token, // <--- Send the token to the frontend
+      message: "User created successfully",
+    });
+    // --- FIX ENDS HERE ---
   } catch (error) {
     console.error("Signup Error:", error);
     res.status(500).json({ message: "Something went wrong" });
