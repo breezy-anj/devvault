@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; // Added useEffect
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { X, Code, Terminal, Tag } from "lucide-react";
 
@@ -26,7 +26,6 @@ const LANGUAGES = [
   { value: "lua", label: "Lua" },
 ];
 
-// Accepted a new prop: snippetToEdit
 const AddSnippet = ({ onClose, onSnippetAdded, snippetToEdit = null }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -35,7 +34,6 @@ const AddSnippet = ({ onClose, onSnippetAdded, snippetToEdit = null }) => {
     tags: "",
   });
 
-  // Pre-fill the form if we are editing
   useEffect(() => {
     if (snippetToEdit) {
       setFormData({
@@ -49,21 +47,27 @@ const AddSnippet = ({ onClose, onSnippetAdded, snippetToEdit = null }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 1. GET THE TOKEN
+    const token = localStorage.getItem("devvault_token");
+
     try {
       const formattedTags = formData.tags.split(",").map((tag) => tag.trim());
       const payload = { ...formData, tags: formattedTags };
 
       if (snippetToEdit) {
-        // UPDATE Existing Snippet
+        // UPDATE Existing Snippet (With Token)
         await axios.put(
           `${import.meta.env.VITE_API_URL}/api/snippets/${snippetToEdit._id}`,
           payload,
+          { headers: { Authorization: token } }, // <--- ATTACH TOKEN
         );
       } else {
-        // CREATE New Snippet
+        // CREATE New Snippet (With Token)
         await axios.post(
           `${import.meta.env.VITE_API_URL}/api/snippets/create`,
           payload,
+          { headers: { Authorization: token } }, // <--- ATTACH TOKEN
         );
       }
 
@@ -71,7 +75,10 @@ const AddSnippet = ({ onClose, onSnippetAdded, snippetToEdit = null }) => {
       onClose();
     } catch (err) {
       console.error("Error saving snippet:", err);
-      alert("Failed to save snippet.");
+      alert(
+        err.response?.data?.message ||
+          "Failed to save snippet. Please try logging in again.",
+      );
     }
   };
 
