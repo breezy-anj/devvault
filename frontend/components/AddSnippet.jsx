@@ -63,11 +63,16 @@ const AddSnippet = ({ onClose, onSnippetAdded, snippetToEdit = null }) => {
           { headers: { Authorization: `Bearer ${token}` } },
         );
       } else {
-        // CREATE New Snippet (With Token)
+        // CREATE New Snippet
         await axios.post(
           `${import.meta.env.VITE_API_URL}/api/snippets/create`,
           payload,
-          { headers: { Authorization: token } }, // <--- ATTACH TOKEN
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
         );
       }
 
